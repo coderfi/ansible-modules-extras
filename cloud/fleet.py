@@ -268,7 +268,7 @@ def parse_facts(command,
         HASH    UNIT                LOAD    ACTIVE    SUB    MACHINE
         2783a93    docker-registry.1.service    loaded    active    running    2f1d2afe.../192.168.1.1
         '''
-        by_keys = ('load', 'active', 'sub', 'machine')
+        by_keys = ('load', 'active', 'sub', 'machine', 'unit')
 
         facts['fleet_units'] = units = {}
         facts['fleet_units_by'] = by = {}
