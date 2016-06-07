@@ -76,7 +76,7 @@ requirements:
   - "fleet python library U(https://github.com/cnelson/python-fleet)"
   - "a working CoreOS cluster with the Fleet API TCP socket enabled (be sure to pick an accessible ip address) see U(https://coreos.com/fleet/docs/latest/deployment-and-configuration.html#api)"
 short_description: "Manages Fleet units in a CoreOS cluster"
-version_added: "2.1"
+version_added: "2.2"
 
 '''
 
