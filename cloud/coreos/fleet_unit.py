@@ -15,75 +15,77 @@
 
 DOCUMENTATION = '''
 ---
-module: fleet_unit
-short_description: Manages Fleet units in a CoreOS cluster
-description:
-    - Manages Fleet units in a CoreOS cluster
-    - Returns a dictionary with a message about what was changed
-requirements:
-    - fleet python library U(https://github.com/cnelson/python-fleet)
-    - a working CoreOS cluster with the Fleet API TCP socket enabled
-      (be sure to pick an accessible ip address)
-      see U(https://coreos.com/fleet/docs/latest/deployment-and-configuration.html#api)
-notes:
-    - this module has been tested on a CoreOS stable (723.3.0) cluster,
-      with fleetctl version 0.10.2,
-      and python fleet version 0.1.2,
-      though it may work with other versions
-version_added: "2.1"
+---
 author: "Fairiz Azizi (github.com/coderfi)"
+description:
+  - "Manages Fleet units in a CoreOS cluster"
+  - "Returns a dictionary with a message about what was changed"
+module: fleet_unit
+notes:
+  - "this module has been tested on a CoreOS stable (723.3.0) cluster, with fleetctl version 0.10.2, and python fleet version 0.1.2, though it may work with other versions"
 options:
-  state:
+  endpoint:
+    default: "http://127.0.0.1:49153"
     description:
-      - the desired state the Unit should be in after the command executes
-      - absent: destroys the unit
-      - started: starts the unit, creating it if necessary,
-        if it exists and is already started, nothing is done
-      - stopped: stops the unit
-      - present: does not alter the start/stop state,
-        however, if the unit does not exist, then create it in the
-        loaded (i.e. stopped) state.
-      - restarted: stop the service, then starts it, creating the unit as necessary
-    default: started
+      - "The Fleet API TCP listening address and socket"
   name:
     description:
-      - the unit identifier, e.g. 'foo.service'
-      - when creating a unit, this is the name that will be used
-      - when modifying the state of an existing unit, this identifies
-        the unit to modify
-  src:
+      - "the unit identifier, e.g. 'foo.service'"
+      - "when creating a unit, this is the name that will be used"
+      - "when modifying the state of an existing unit, this identifies the unit to modify"
+  oneway:
+    default: false
     description:
-      - path to the systemd configuration file U(http://www.freedesktop.org/software/systemd/man/systemd.unit.html)
-        This can be a relative or absolute path.
-      - used only if the unit is to be created,
-        one and only one of: src, text or options may be specified
-  text:
-    description:
-      - a string containing the systemd configuration file U(http://www.freedesktop.org/software/systemd/man/systemd.unit.html)
-      - used only if the unit is to be created,
-        one and only one of: src, text or options may be specified
+      - "if set, do not poll Fleet to verify that the unit has changed to the desired state"
   options:
     description:
-      - a hash/dictionary of Unit options, each containing section, name, value
-      - these represent the contents of a systemd configuration file U(http://www.freedesktop.org/software/systemd/man/systemd.unit.html)
-      - used only if the unit is to be created,
-        one and only one of: src, text or options may be specified
-  oneway:
-    description:
-      - if set, do not poll Fleet to verify that the unit has changed to the desired state
-    default: false
-  poll_secs:
-    description:
-      - how long to wait, in seconds, before checking to see if the unit finally changed to the desired state
-    default: 1.0
+      - "a hash/dictionary of Unit options, each containing section, name, value"
+      - "these represent the contents of a systemd configuration file U(http://www.freedesktop.org/software/systemd/man/systemd.unit.html)"
+      - "used only if the unit is to be created, one and only one of src, text or options may be specified"
   poll_retry:
-    description:
-      - the maximum number of times to check
     default: 10
-  endpoint:
     description:
-      - The Fleet API TCP listening address and socket
-    default: http://127.0.0.1:49153
+      - "the maximum number of times to check"
+  poll_secs:
+    default: 1.0
+    description:
+      - "how long to wait, in seconds, before checking to see if the unit finally changed to the desired state"
+  src:
+    description:
+      - "path to the systemd configuration file U(http://www.freedesktop.org/software/systemd/man/systemd.unit.html) This can be a relative or absolute path."
+      - "used only if the unit is to be created, one and only one of src, text or options may be specified"
+  state:
+    default: started
+    description:
+      - "the desired state the Unit should be in after the command executes"
+      -
+        absent: "destroys the unit"
+      -
+        started: "starts the unit, creating it if necessary, if it exists and is already started, nothing is done"
+      -
+        stopped: "stops the unit"
+      -
+        present: "does not alter the start/stop state, however, if the unit does not exist, then create it in the loaded (i.e. stopped) state."
+      -
+        restarted: "stop the service, then starts it, creating the unit as necessary"
+  text:
+    description:
+      - "a string containing the systemd configuration file U(http://www.freedesktop.org/software/systemd/man/systemd.unit.html)"
+      - "used only if the unit is to be created, one and only one of src, text or options may be specified"
+requirements:
+  - "fleet python library U(https://github.com/cnelson/python-fleet)"
+  - "a working CoreOS cluster with the Fleet API TCP socket enabled (be sure to pick an accessible ip address) see U(https://coreos.com/fleet/docs/latest/deployment-and-configuration.html#api)"
+short_description: "Manages Fleet units in a CoreOS cluster"
+version_added: "2.1"
+
+'''
+
+RETURN = '''
+reasons:
+    description: the reasons why the unit state changed or did not change
+    returned: success
+    type: str
+    sample: "unit MyApp.service created and started"
 '''
 
 EXAMPLES = '''
