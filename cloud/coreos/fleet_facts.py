@@ -30,7 +30,7 @@ notes:
       with fleetctl version 0.10.2,
       and python fleet version 0.1.2,
       though it may work with other versions
-version_added: "2.1"
+version_added: "2.2"
 author: "Fairiz Azizi (github.com/coderfi)"
 options:
   endpoint:
