@@ -15,7 +15,6 @@
 
 DOCUMENTATION = '''
 ---
----
 author: "Fairiz Azizi (github.com/coderfi)"
 description:
   - "Manages Fleet units in a CoreOS cluster"
@@ -314,7 +313,7 @@ def create_unit_or_fail(client, module, name, inst, state):
             from_file=from_file,
             from_string=text
         )
-    except IOError, ioe:
+    except IOError as ioe:
         if from_file:
             module.fail_json(
                 msg="unable to create unit from_file=%s: %s"
