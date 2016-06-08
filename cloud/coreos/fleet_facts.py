@@ -39,6 +39,13 @@ options:
     default: http://127.0.0.1:49153
 '''
 
+RETURN = '''
+reasons:
+    description: a dict with the machines array and units array
+    type: dict
+    sample: {"machines":[ ... ], "units":[ ... ]}
+'''
+
 EXAMPLES = '''
 # Gather facts about all Fleet machines and units.
 - action:
